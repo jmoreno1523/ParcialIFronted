@@ -10,7 +10,7 @@ const Auditorios = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/auditorios')
+    axios.get('https://parcial-i-backend-c11n.vercel.app/api/auditorios')
       .then(res => setAuditorios(res.data))
       .catch(err => console.error("❌ Error cargando auditorios", err));
   }, []);
