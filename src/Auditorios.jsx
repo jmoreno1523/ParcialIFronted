@@ -9,8 +9,9 @@ const Auditorios = () => {
   const [respuesta, setRespuesta] = useState('');
   const navigate = useNavigate();
 
+  // Cargar los auditorios desde el backend de Vercel
   useEffect(() => {
-    axios.get('https://parcial-i-backend.vercel.app/api/auditorios')
+    axios.get('https://parcial-i-backend-c11n-git-main-julians-projects-dab8aba7.vercel.app/api/auditorios')
       .then(res => setAuditorios(res.data))
       .catch(err => console.error("❌ Error cargando auditorios", err));
   }, []);
@@ -23,7 +24,8 @@ const Auditorios = () => {
   const consultarChatGPT = async () => {
     if (!pregunta.trim()) return;
     try {
-      const res = await axios.post('http://localhost:5000/api/chatgpt', { pregunta });
+      // Usar la URL de producción del backend en Vercel para ChatGPT
+      const res = await axios.post('https://parcial-i-backend-c11n-git-main-julians-projects-dab8aba7.vercel.app/api/chatgpt', { pregunta });
       setRespuesta(res.data.respuesta);
     } catch (err) {
       console.error("Error al consultar ChatGPT", err);
