@@ -9,7 +9,7 @@ const AuditorioDetalle = () => {
   const [auditorio, setAuditorio] = useState(null);
 
   useEffect(() => {
-    axios.get('https://parcial-i-backend-c11n.vercel.app/api/auditorios')
+    axios.get('https://parcial-i-backend.vercel.app/api/auditorios')
       .then(res => {
         const encontrado = res.data.find(a => a._id === id);
         setAuditorio(encontrado);
