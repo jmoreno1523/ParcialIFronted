@@ -11,8 +11,15 @@ const Auditorios = () => {
 
   // Cargar los auditorios desde el backend de Vercel
   useEffect(() => {
-    axios.get('http://localhost:5000/api/auditorios')
-      .then(res => setAuditorios(res.data))
+    axios.get('https://parcial-i-backend-igm4.vercel.app/api/auditorios')
+      .then(res => {
+        console.log("Datos auditorios desde Vercel:", res.data);
+        // Ajusta aquí según la estructura que te devuelve el backend
+        const datos = Array.isArray(res.data)
+          ? res.data
+          : res.data.auditorios || res.data.data || [];
+        setAuditorios(datos);
+      })
       .catch(err => console.error("❌ Error cargando auditorios", err));
   }, []);
 
@@ -24,7 +31,6 @@ const Auditorios = () => {
   const consultarChatGPT = async () => {
     if (!pregunta.trim()) return;
     try {
-      // Usar la URL de producción del backend en Vercel para ChatGPT
       const res = await axios.post('https://parcial-i-backend-igm4.vercel.app/api/chatgpt', { pregunta });
       setRespuesta(res.data.respuesta);
     } catch (err) {
@@ -39,9 +45,13 @@ const Auditorios = () => {
 
       <select onChange={handleSeleccion} defaultValue="" className="select">
         <option value="" disabled>Selecciona un auditorio para ver detalles</option>
-        {auditorios.map(a => (
-          <option key={a._id} value={a._id}>{a.nombre}</option>
-        ))}
+        {Array.isArray(auditorios) && auditorios.length > 0 ? (
+          auditorios.map(a => (
+            <option key={a._id} value={a._id}>{a.nombre}</option>
+          ))
+        ) : (
+          <option disabled>No hay auditorios disponibles</option>
+        )}
       </select>
 
       <div className="chat-box">
